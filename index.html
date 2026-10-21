@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>ZICK VIP RED SYSTEM</title>
+    <style>
+        :root {
+            --bg-color: #070305;
+            --card-bg: rgba(24, 14, 18, 0.9);
+            --neon-accent: #ff004c;
+            --accent-glow: rgba(255, 0, 76, 0.35);
+            --text-main: #ffffff;
+            --text-sub: #9a8289;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html, body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px 12px 40px 12px;
+            box-sizing: border-box;
+            background-image: radial-gradient(circle at 50% 0%, var(--accent-glow), transparent 60%);
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            padding-bottom: 4px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-sub);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.active {
+            background: var(--accent-glow);
+            border-color: var(--neon-accent);
+            color: var(--neon-accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .dot-active {
+            width: 7px;
+            height: 7px;
+            background-color: var(--neon-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-accent);
+        }
+
+        /* Language Panel */
+        .control-panel {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-sub);
+            letter-spacing: 1px;
+        }
+
+        .lang-switches {
+            display: flex;
+            gap: 6px;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-sub);
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-glow);
+            border-color: var(--neon-accent);
+            color: var(--neon-accent);
+        }
+
+        /* Tab Content Views */
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .modules-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4px;
+        }
+
+        .modules-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-sub);
+            letter-spacing: 1px;
+        }
+
+        .modules-count {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--neon-accent);
+        }
+
+        /* Select Box Style */
+        .select-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .custom-select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--neon-accent);
+            padding: 12px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .custom-select option {
+            background: #070305;
+            color: #ffffff;
+        }
+
+        .toggle-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .toggle-info h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-info p {
+            font-size: 10px;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        /* Switch Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .3s;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #fff;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-glow);
+            border-color: var(--neon-accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(21px);
+            background-color: var(--neon-accent);
+            box-shadow: 0 0 10px var(--neon-accent);
+        }
+
+        /* Action Buttons */
+        .btn-launch {
+            width: 100%;
+            margin-top: 4px;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff004c, #800026);
+            color: #ffffff;
+            border: 1px solid var(--neon-accent);
+            border-radius: 22px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            transition: all 0.2s ease;
+        }
+
+        .btn-launch:active {
+            transform: scale(0.98);
+        }
+
+        .btn-export {
+            width: 100%;
+            margin-top: 4px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--neon-accent), #b30036);
+            color: #ffffff;
+            border: none;
+            border-radius: 22px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: all 0.2s ease;
+        }
+
+        .btn-export:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer Return Section */
+        .footer-section {
+            margin-top: 10px;
+            background: var(--card-bg);
+            border: 1px dashed rgba(255, 0, 76, 0.3);
+            border-radius: 20px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-sub);
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-back-top {
+            background: rgba(255, 0, 76, 0.15);
+            border: 1px solid var(--neon-accent);
+            color: var(--neon-accent);
+            padding: 10px 20px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .btn-back-top:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container" id="top-anchor">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-btn active" id="tab-home-btn" onclick="switchTab('home', this)" data-i18n="homeTab">HOME</button>
+            <button class="nav-btn" id="tab-aim-btn" onclick="switchTab('aim', this)" data-i18n="aimTab">AIM</button>
+        </div>
+
+        <!-- Language Panel -->
+        <div class="control-panel">
+            <span class="panel-title" data-i18n="langTitle">LANGUAGE / NGÔN NGỮ</span>
+            <div class="lang-switches">
+                <button class="lang-btn active" id="btn-vi" onclick="setLanguage('vi')">VI</button>
+                <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+            </div>
+        </div>
+
+        <!-- HOME Tab View -->
+        <div id="home-view" class="tab-content active">
+            <!-- Game Version Selector -->
+            <div class="select-card">
+                <div class="modules-title" data-i18n="gameLabel">CHỌN PHIÊN BẢN GAME</div>
+                <select class="custom-select" id="game-select">
+                    <option value="ff-normal">Free Fire thường</option>
+                    <option value="ff-max">Free Fire Max</option>
+                </select>
+            </div>
+
+            <!-- iPhone Device Selector -->
+            <div class="select-card">
+                <div class="modules-title" data-i18n="deviceLabel">CHỌN THIẾT BỊ IPHONE</div>
+                <select class="custom-select">
+                    <option value="iphone-17-pro-max">iPhone 17 Pro Max</option>
+                    <option value="iphone-17-pro">iPhone 17 Pro</option>
+                    <option value="iphone-17">iPhone 17</option>
+                    <option value="iphone-16-pro-max">iPhone 16 Pro Max</option>
+                    <option value="iphone-16-pro">iPhone 16 Pro</option>
+                    <option value="iphone-16">iPhone 16</option>
+                    <option value="iphone-15-pro-max">iPhone 15 Pro Max</option>
+                    <option value="iphone-15-pro">iPhone 15 Pro</option>
+                    <option value="iphone-15">iPhone 15</option>
+                    <option value="iphone-14-pro-max">iPhone 14 Pro Max</option>
+                    <option value="iphone-14-pro">iPhone 14 Pro</option>
+                    <option value="iphone-14">iPhone 14</option>
+                    <option value="iphone-13-pro-max">iPhone 13 Pro Max</option>
+                    <option value="iphone-13-pro">iPhone 13 Pro</option>
+                    <option value="iphone-13">iPhone 13</option>
+                    <option value="iphone-12-pro-max">iPhone 12 Pro Max</option>
+                    <option value="iphone-12-pro">iPhone 12 Pro</option>
+                    <option value="iphone-12">iPhone 12</option>
+                    <option value="iphone-11-pro-max">iPhone 11 Pro Max</option>
+                    <option value="iphone-11-pro">iPhone 11 Pro</option>
+                    <option value="iphone-11">iPhone 11</option>
+                    <option value="iphone-xs-max">iPhone XS Max</option>
+                    <option value="iphone-xr">iPhone XR</option>
+                    <option value="iphone-x">iPhone X / XS</option>
+                    <option value="iphone-8-plus">iPhone 8 Plus</option>
+                    <option value="iphone-8">iPhone 8</option>
+                    <option value="iphone-7-plus">iPhone 7 Plus</option>
+                    <option value="iphone-7">iPhone 7</option>
+                    <option value="iphone-6s-plus">iPhone 6s Plus</option>
+                    <option value="iphone-6s">iPhone 6s</option>
+                    <option value="iphone-6-plus">iPhone 6 Plus</option>
+                    <option value="iphone-6">iPhone 6</option>
+                </select>
+            </div>
+
+            <!-- Launch Game Button -->
+            <button class="btn-launch" onclick="launchGame()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span data-i18n="launchBtn">MỞ GAME NGAY</span>
+            </button>
+
+            <div class="modules-header">
+                <span class="modules-title" data-i18n="coreModulesTitle">CORE MODULES</span>
+                <span class="modules-count">2 / 2</span>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="netOpt">Tối Ưu Mạng</span></h3>
+                    <p data-i18n="netOptSub">GIẢM PING BĂNG THÔNG</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="coordLock">Khóa Tọa Độ</span></h3>
+                    <p data-i18n="coordLockSub">ĐỊNH VỊ TÂM NGẮM</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Export Button -->
+            <button class="btn-export" onclick="exportMobileConfig()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span data-i18n="exportBtn">XUẤT PROFILE IOS (.MOBILECONFIG)</span>
+            </button>
+        </div>
+
+        <!-- AIM Tab View -->
+        <div id="aim-view" class="tab-content">
+            <div class="modules-header">
+                <span class="modules-title" data-i18n="aimConfigTitle">AIM CONFIG</span>
+                <span class="modules-count">5 / 5</span>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="aimLock">AimLock</span></h3>
+                    <p data-i18n="aimLockSub">KHÓA TÂM MỤC TIÊU TỰ ĐỘNG</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="smoothV1">Nhẹ Tâm V1</span></h3>
+                    <p data-i18n="smoothV1Sub">CÂN BẰNG TỌA ĐỘ CƠ BẢN</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="smoothV2">Nhẹ Tâm V2</span></h3>
+                    <p data-i18n="smoothV2Sub">TỐI ƯU HÓA ĐỘ NHẠY NÂNG CAO</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="fixOvershoot">Fix Lố Đầu</span></h3>
+                    <p data-i18n="fixOvershootSub">CHỐNG VĂNG TÂM KHI KÉO</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h3><span class="dot-active"></span> <span data-i18n="fixJitter">Fix Rung</span></h3>
+                    <p data-i18n="fixJitterSub">KHỬ LỆCH JITTER</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="footer-section">
+                <div class="footer-text" data-i18n="footerNotice">
+                    Vui Lòng Quay Lại Đầu Menu Để Xuất File Mobileconfig ViP
+                </div>
+                <button class="btn-back-top" onclick="scrollToTopAndGoHome()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                        <polyline points="5 12 12 5 19 12"></polyline>
+                    </svg>
+                    <span data-i18n="btnBackTop">QUAY LẠI ĐẦU TRANG</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            vi: {
+                homeTab: "HOME",
+                aimTab: "AIM",
+                langTitle: "NGÔN NGỮ HỆ THỐNG",
+                gameLabel: "CHỌN PHIÊN BẢN GAME",
+                deviceLabel: "CHỌN THIẾT BỊ IPHONE",
+                launchBtn: "MỞ GAME NGAY",
+                coreModulesTitle: "TÍNH NĂNG CHÍNH",
+                aimConfigTitle: "CẤU HÌNH AIM",
+                netOpt: "Tối Ưu Mạng",
+                netOptSub: "GIẢM PING BĂNG THÔNG",
+                coordLock: "Khóa Tọa Độ",
+                coordLockSub: "ĐỊNH VỊ TÂM NGẮM",
+                aimLock: "AimLock",
+                aimLockSub: "KHÓA TÂM MỤC TIÊU TỰ ĐỘNG",
+                smoothV1: "Nhẹ Tâm V1",
+                smoothV1Sub: "CÂN BẰNG TỌA ĐỘ CƠ BẢN",
+                smoothV2: "Nhẹ Tâm V2",
+                smoothV2Sub: "TỐI ƯU HÓA ĐỘ NHẠY NÂNG CAO",
+                fixOvershoot: "Fix Lố Đầu",
+                fixOvershootSub: "CHỐNG VĂNG TÂM KHI KÉO",
+                fixJitter: "Fix Rung",
+                fixJitterSub: "KHỬ LỆCH JITTER",
+                exportBtn: "XUẤT PROFILE IOS (.MOBILECONFIG)",
+                footerNotice: "Vui Lòng Quay Lại Đầu Menu Để Xuất File Mobileconfig ViP",
+                btnBackTop: "QUAY LẠI ĐẦU TRANG"
+            },
+            en: {
+                homeTab: "HOME",
+                aimTab: "AIM",
+                langTitle: "SYSTEM LANGUAGE",
+                gameLabel: "SELECT GAME VERSION",
+                deviceLabel: "SELECT IPHONE MODEL",
+                launchBtn: "LAUNCH GAME NOW",
+                coreModulesTitle: "CORE MODULES",
+                aimConfigTitle: "AIM CONFIG",
+                netOpt: "Network Optimize",
+                netOptSub: "REDUCE PING & BANDWIDTH",
+                coordLock: "Coordinate Lock",
+                coordLockSub: "PRECISION CROSSHAIR",
+                aimLock: "AimLock",
+                aimLockSub: "AUTO TARGET LOCK",
+                smoothV1: "Smooth Aim V1",
+                smoothV1Sub: "BASIC COORDINATE BALANCE",
+                smoothV2: "Smooth Aim V2",
+                smoothV2Sub: "ADVANCED SENSITIVITY OPTIMIZE",
+                fixOvershoot: "Overshoot Fix",
+                fixOvershootSub: "PREVENT CROSSHAIR FLICK",
+                fixJitter: "Jitter Fix",
+                fixJitterSub: "REDUCE SHAKE & JITTER",
+                exportBtn: "EXPORT IOS PROFILE (.MOBILECONFIG)",
+                footerNotice: "Please Return To Top Menu To Export VIP Mobileconfig File",
+                btnBackTop: "RETURN TO TOP"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(view => view.classList.remove('active'));
+            if (tabName === 'home') {
+                document.getElementById('home-view').classList.add('active');
+            } else if (tabName === 'aim') {
+                document.getElementById('aim-view').classList.add('active');
+            }
+        }
+
+        function scrollToTopAndGoHome() {
+            const homeBtn = document.getElementById('tab-home-btn');
+            switchTab('home', homeBtn);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function launchGame() {
+            const selectedGame = document.getElementById('game-select').value;
+            if (selectedGame === 'ff-max') {
+                window.location.href = 'freefiremax://';
+            } else {
+                window.location.href = 'freefire://';
+            }
+        }
+
+        function exportMobileConfig() {
+            const currentUrl = window.location.href;
+            const uuid1 = "Z1" + Math.random().toString(36).substring(2, 11).toUpperCase();
+            const uuid2 = "Z2" + Math.random().toString(36).substring(2, 11).toUpperCase();
+
+            const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string>ZICK VIP RED</string>
+            <key>PayloadDescription</key>
+            <string>Zick System Red VIP WebClip Profile</string>
+            <key>PayloadDisplayName</key>
+            <string>Zick VIP Red</string>
+            <key>PayloadIdentifier</key>
+            <string>com.zick.redvip.webclip.${uuid1}</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>${uuid1}</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>${currentUrl}</string>
+        </dict>
+    </array>
+    <key>PayloadDisplayName</key>
+    <string>ZICK Red VIP Theme</string>
+    <key>PayloadIdentifier</key>
+    <string>com.zick.redvip.profile.${uuid2}</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>${uuid2}</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>`;
+
+            const blob = new Blob([xmlContent], { type: 'application/x-apple-aspen-config' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Zick_RedVIP.mobileconfig';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
